@@ -30,34 +30,52 @@ def user_choises():
     print("Hello! I'm yours helper! \nPlease, make an accout or log in!")
     while True:
         try:
-            valik = int(input("\nIf you want to make a new accout - enter number 1,\nif you want to log in - enter number 2,\nif you want to exit - enter number 3\n--------> "))
+            valik = str(input("\nIf you want to make a new accout - enter number 1,\nif you want to log in - enter number 2,\nif you want to exit - enter number 3\n--------> "))
         except:
             print("Enter the number!")
-        if valik == 2:
+        if str(valik) == "2":
             user_login()
-        elif valik == 1:
+        elif str(valik) == "1":
             user_reg()
             user_login()
-        elif valik == 3:
+        elif str(valik) == "3":
             exit()
 
 def user_login():
     """Funktsioon teeb sisselogimis protsessi
 
     """
-    username = input("\nPlease enter your username --> \n")
+    username = input("\nHello!\nPlease enter your username --> \n")
     try:
         if username in username_list:
             a = username_list.index(username)
             for i in range(3):
-                password = input("\nPlease, enter the password --> \n")
+                password = input(f"\nDear,{username}!\nPlease, enter the password --> \n")
                 if password == password_list[a]:
-                    print("Log in succesfully!")
+                    
+                    print("\nLog in succesfully!")
                     break
                 else:
-                    print("\nWrong password!",(1+i))
+                    print("\nWrong password!",(1+i))         
         else:
-            print("Worng username!")
+            for i in range(3):
+                print("\nWorng username!")
+                username = input("\nPlease enter the correct username --> \n")
+                if username in username_list:
+                    a = username_list.index(username)
+                    break
+                else: 
+                    print("\nIncorrect! Append Nr.:", i+1)
+                    if i == 3:
+                        break
+        # if username in username_list:  
+        #     for i in range(3):
+        #         password = input("\nPlease, enter the password --> \n")
+        #         if password == password_list[a]:
+        #             print("\nLog in succesfully!")
+        #             break
+        #         else:
+        #             print("\nWrong password! Append Nr.:",(1+i))         
     except:
         print("Error!")
               
@@ -72,21 +90,21 @@ def user_reg():
         username = input("Please, enter a new username --> \n")
     else:    
         username_list.append(username)
-    password = input("If you want to generate password - enter number 1,\nif you want to use yours password - enter number 2.\n ------> ")
-    if password == "1":
+    sala = input("If you want to generate password - enter number 1,\nif you want to use your password - enter number 2.\n ------> ")
+    if sala == "1":
         try:
             num = int(input("Enter the initials amount --> "))
         except:
             print("You must enter a number!")
-        password_generation(num)
         password_list.append(password_generation(num))
-    elif password == "2":
-        sala = input("Enter new password --> \n")
-        while password_control(sala) != True:
-            sala = input("Enter new password --> \n") 
-            if password_control(sala) == True:
-                password_list.append(sala)
-    return password
+    elif sala == "2":
+        password = input("Enter new password --> \n")
+        while password_control(password) == False:
+            password = input("Enter new password --> \n") 
+        if password_control(password) == True:
+            password_list.append(str(password))
+            print("\nYours new password is: ", str(password))
+    return password_list
         
 def password_control(password:str):
     """Func kontrollib salasona.
@@ -115,7 +133,6 @@ def password_control(password:str):
         else:
             o += 0
     if k > 0 and l > 0 and o > 0:
-        #print(True)
         return True
     else:
         print("Password must be consist of digits letters and capital letters!")
